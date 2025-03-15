@@ -56,7 +56,7 @@ export default function AddTopic() {
 
       <button
         type="submit"
-        className="bg-green-600 font-bold text-white py-3 px-6 w-fit"
+        className="bg-green-600 font-bold text-white py-3 px-6 w-fit cursor-pointer"
       >
         Add Topic
       </button>
