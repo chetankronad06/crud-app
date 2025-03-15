@@ -15,15 +15,26 @@ const getTopics = async () => {
     return res.json();
   } catch (error) {
     console.log("Error loading topics: ", error);
+    return null; // Ensure function returns null if an error occurs
   }
 };
 
 export default async function TopicsList() {
-  const { topics } = await getTopics();
+  const data = await getTopics();
+
+  if (!data || !data.topics || data.topics.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center p-6 border border-gray-300 rounded-lg bg-gray-100 shadow-md">
+        <h2 className="text-xl font-semibold text-gray-700">No Topics Available</h2>
+        <p className="text-gray-500">Start by adding some topics to see them here.</p>
+      </div>
+    );
+  }
+  
 
   return (
     <>
-      {topics.map((t) => (
+      {data.topics.map((t) => (
         <div
           key={t._id}
           className="p-4 border border-slate-300 my-3 flex justify-between gap-5 items-start"
@@ -34,7 +45,7 @@ export default async function TopicsList() {
           </div>
 
           <div className="flex gap-2">
-            <RemoveBtn id={t._id} />
+            <RemoveBtn id={t._id}/>
             <Link href={`/editTopic/${t._id}`}>
               <HiPencilAlt size={24} />
             </Link>
